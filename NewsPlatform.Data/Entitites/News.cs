@@ -7,6 +7,7 @@
         public string Author { get; set; }
         public string Content { get; set; }
         public int PositivityRate { get; set; }
+        public DateTime PublishTime { get; set; }
 
         public List<Comment> Comments { get; set; }
         public List<Topic> Topics { get; set; }
