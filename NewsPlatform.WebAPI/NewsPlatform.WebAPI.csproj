@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NewsPlatform.Data\NewsPlatform.Data.csproj" />
+    <ProjectReference Include="..\NewsPlatform.Application\NewsPlatform.Application.csproj" />
   </ItemGroup>
 
 </Project>
