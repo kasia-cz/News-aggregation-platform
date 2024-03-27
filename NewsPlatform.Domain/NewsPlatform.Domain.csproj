@@ -10,9 +10,4 @@
     <ProjectReference Include="..\NewsPlatform.Data\NewsPlatform.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

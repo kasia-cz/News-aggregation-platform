@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using NewsPlatform.Application;
+using NewsPlatform.Domain;
 using NewsPlatform.Data.Context;
 
 namespace NewsPlatform.WebAPI
@@ -13,6 +15,8 @@ namespace NewsPlatform.WebAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.RegisterApplicationServices();
+            builder.Services.RegisterDomainServices();
             builder.Services.AddDbContext<NewsPlatformDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
