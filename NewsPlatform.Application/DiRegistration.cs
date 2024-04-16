@@ -9,6 +9,8 @@ namespace NewsPlatform.Application
         public static IServiceCollection RegisterApplicationServices(this IServiceCollection collection)
         {
             collection.AddScoped<INewsAppService, NewsAppService>();
+            collection.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            
             return collection;
         }
     }

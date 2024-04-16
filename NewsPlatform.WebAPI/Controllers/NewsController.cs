@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NewsPlatform.Application.DTOs.NewsDTOs;
 using NewsPlatform.Application.Interfaces;
-using NewsPlatform.Data.Entities;
-
 
 namespace NewsPlatform.WebAPI.Controllers
 {
@@ -17,9 +16,37 @@ namespace NewsPlatform.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<News>>> GetAllNews()
+        public async Task<ActionResult<List<ReturnNewsDTO>>> GetAllNews()
         {
             var result = await _newsAppService.GetAllNews();
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ReturnNewsDTO>> GetNewsById(Guid id)
+        {
+            var result = await _newsAppService.GetNewsById(id);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ReturnNewsDTO>> AddNews(AddNewsDTO requestNewsDTO)
+        {
+            var result = await _newsAppService.AddNews(requestNewsDTO);
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ReturnNewsDTO>> UpdateNews(Guid id, AddNewsDTO requestNewsDTO)
+        {
+            var result = await _newsAppService.UpdateNews(id, requestNewsDTO);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<List<ReturnNewsDTO>>> DeleteNews(Guid id)
+        {
+            var result = await _newsAppService.DeleteNews(id);
             return Ok(result);
         }
     }
