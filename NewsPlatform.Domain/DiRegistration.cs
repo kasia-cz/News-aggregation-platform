@@ -9,6 +9,7 @@ namespace NewsPlatform.Domain
         public static IServiceCollection RegisterDomainServices(this IServiceCollection collection)
         {
             collection.AddScoped<INewsService, NewsService>();
+            collection.AddScoped<ITopicService, TopicService>();
             return collection;
         }
     }
