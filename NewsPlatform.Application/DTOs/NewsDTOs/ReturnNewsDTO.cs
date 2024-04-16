@@ -1,6 +1,6 @@
-﻿namespace NewsPlatform.Data.Entities
+﻿namespace NewsPlatform.Application.DTOs.NewsDTOs
 {
-    public class News
+    public class ReturnNewsDTO
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
@@ -9,7 +9,7 @@
         public int PositivityRate { get; set; }
         public DateTime PublishTime { get; set; }
 
-        public List<Comment> Comments { get; set; }
-        public List<Topic> Topics { get; set; }
+        //public List<Comment> Comments { get; set; } // add later with some DTOs
+        //public List<Topic> Topics { get; set; }
     }
 }
