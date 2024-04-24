@@ -8,17 +8,18 @@ namespace NewsPlatform.Domain.Services
     public class CommentService : ICommentService
     {
         private readonly NewsPlatformDbContext _context;
+        private readonly IUserService _userService;
 
-        public CommentService(NewsPlatformDbContext context)
+        public CommentService(NewsPlatformDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         public async Task<List<Comment>> AddComment(Comment comment)
         {
             comment.PublishTime = DateTime.Now;
-            //comment.UserId = "3fa85f64-5717-4562-b3fc-2c963f66afa6"; // user added manually to database
-            // change to current user ID after adding user registration and login
+            comment.UserId = _userService.GetCurrentUserId();
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 

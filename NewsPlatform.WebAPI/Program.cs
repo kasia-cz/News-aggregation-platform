@@ -32,6 +32,8 @@ namespace NewsPlatform.WebAPI
 
             }).AddRoles<IdentityRole>().AddEntityFrameworkStores<NewsPlatformDbContext>().AddDefaultTokenProviders();
 
+            builder.Services.AddHttpContextAccessor();
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())

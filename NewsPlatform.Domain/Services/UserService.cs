@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using NewsPlatform.Data.Context;
 using NewsPlatform.Data.Entities;
 using NewsPlatform.Domain.Interfaces;
 using NewsPlatform.Domain.Models;
+using System.Security.Claims;
 
 namespace NewsPlatform.Domain.Services
 {
@@ -11,12 +13,14 @@ namespace NewsPlatform.Domain.Services
         private readonly NewsPlatformDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(NewsPlatformDbContext context, UserManager<User> userManager, SignInManager<User> signInManager)
+        public UserService(NewsPlatformDbContext context, UserManager<User> userManager, SignInManager<User> signInManager, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task Register(RegisterModel model)
@@ -37,6 +41,11 @@ namespace NewsPlatform.Domain.Services
         public async Task Logout()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public string GetCurrentUserId()
+        {
+            return _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }
