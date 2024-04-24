@@ -1,14 +1,9 @@
-﻿using NewsPlatform.Data.Enums;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace NewsPlatform.Data.Entities
 {
-    public class User
+    public class User : IdentityUser
     {
-        public Guid Id { get; set; }
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public UserRole UserRole { get; set; }
         public int MinimumPositivityRate { get; set; } = 5;
 
         public List<Comment> Comments { get; set; }

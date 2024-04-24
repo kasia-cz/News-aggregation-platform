@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using NewsPlatform.Data.Entities;
 
 namespace NewsPlatform.Data.Context
 {
-    public class NewsPlatformDbContext : DbContext
+    public class NewsPlatformDbContext : IdentityDbContext<User>
     {
         public DbSet<Comment> Comments { get; set; }
         public DbSet<News> News { get; set; }
