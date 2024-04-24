@@ -11,6 +11,7 @@ namespace NewsPlatform.Domain
             collection.AddScoped<INewsService, NewsService>();
             collection.AddScoped<ITopicService, TopicService>();
             collection.AddScoped<ICommentService, CommentService>();
+            collection.AddScoped<IUserService, UserService>();
 
             return collection;
         }

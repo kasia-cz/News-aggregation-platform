@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using NewsPlatform.Application;
 using NewsPlatform.Domain;
 using NewsPlatform.Data.Context;
+using Microsoft.AspNetCore.Identity;
+using NewsPlatform.Data.Entities;
 
 namespace NewsPlatform.WebAPI
 {
@@ -21,6 +23,14 @@ namespace NewsPlatform.WebAPI
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 8;
+
+            }).AddRoles<IdentityRole>().AddEntityFrameworkStores<NewsPlatformDbContext>().AddDefaultTokenProviders();
 
             var app = builder.Build();
 
