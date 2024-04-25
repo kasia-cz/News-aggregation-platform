@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using NewsPlatform.Application.DTOs.UserDTOs;
 using NewsPlatform.Application.Interfaces;
+using NewsPlatform.Data.Constants;
 using NewsPlatform.Data.Entities;
 using NewsPlatform.Domain.Interfaces;
 using NewsPlatform.Domain.Models;
@@ -29,14 +30,27 @@ namespace NewsPlatform.Application.Services
         {
             var user = await _userService.GetUserById(id);
 
-            return _mapper.Map<ReturnUserDTO>(user);
+            return await MapUserWithRole(user);
         }
 
         public async Task<ReturnUserDTO> GetCurrentUser()
         {
             var user = await _userService.GetCurrentUser();
 
-            return _mapper.Map<ReturnUserDTO>(user);
+            return await MapUserWithRole(user);
+        }
+
+        public async Task<ReturnUserDTO> SetUserRole(string id, string requestUserRole)
+        {
+            string[] allowedRoles = [UserConstants.UserRoles.User, UserConstants.UserRoles.AuthorizedUser, UserConstants.UserRoles.Moderator];
+
+            if (!allowedRoles.Contains(requestUserRole))
+            {
+                throw new Exception("Invalid user role");
+            }
+            var user = await _userService.SetUserRole(id, requestUserRole);
+
+            return await MapUserWithRole(user);
         }
 
         public async Task Register(RegisterDTO registerDTO)
@@ -54,6 +68,14 @@ namespace NewsPlatform.Application.Services
         public async Task Logout()
         {
             await _userService.Logout();
+        }
+
+        private async Task<ReturnUserDTO> MapUserWithRole(User user)
+        {
+            var userDTO = _mapper.Map<ReturnUserDTO>(user);
+            userDTO.Role = await _userService.GetUserRole(user);
+
+            return userDTO;
         }
     }
 }

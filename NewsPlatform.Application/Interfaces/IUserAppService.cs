@@ -7,6 +7,7 @@ namespace NewsPlatform.Application.Interfaces
         Task<List<ReturnUserDTO>> GetAllUsers();
         Task<ReturnUserDTO> GetUserById(string id);
         Task<ReturnUserDTO> GetCurrentUser();
+        Task<ReturnUserDTO> SetUserRole(string id, string requestUserRole);
         Task Register(RegisterDTO registerDTO);
         Task Login(LoginDTO loginDTO);
         Task Logout();

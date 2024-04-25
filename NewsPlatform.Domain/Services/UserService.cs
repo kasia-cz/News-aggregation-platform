@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NewsPlatform.Data.Constants;
 using NewsPlatform.Data.Context;
 using NewsPlatform.Data.Entities;
 using NewsPlatform.Domain.Interfaces;
@@ -39,6 +40,23 @@ namespace NewsPlatform.Domain.Services
             return await _context.Users.FindAsync(GetCurrentUserId());
         }
 
+        public async Task<string> GetUserRole(User user)
+        {
+            var userRoles = await _userManager.GetRolesAsync(user);
+            return userRoles.FirstOrDefault();
+        }
+
+        public async Task<User> SetUserRole(string id, string requestUserRole)
+        {
+            var user = await _context.Users.FindAsync(id);
+            var userRoles = await _userManager.GetRolesAsync(user);
+            await _userManager.RemoveFromRolesAsync(user, userRoles);
+            await _userManager.AddToRoleAsync(user, requestUserRole);
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
         public async Task Register(RegisterModel model)
         {
             var user = new User
@@ -47,6 +65,7 @@ namespace NewsPlatform.Domain.Services
                 UserName = model.UserName,
             };
             await _userManager.CreateAsync(user, model.Password);
+            await _userManager.AddToRoleAsync(user, UserConstants.UserRoles.User);
         }
 
         public async Task Login(LoginModel model)

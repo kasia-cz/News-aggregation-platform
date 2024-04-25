@@ -37,6 +37,13 @@ namespace NewsPlatform.WebAPI.Controllers
             return Ok(result);
         }
 
+        [HttpPut("userRole/{id}")]
+        public async Task<ActionResult<ReturnUserDTO>> SetUserRole(string id, string requestUserRole)
+        {
+            var result = await _userAppService.SetUserRole(id, requestUserRole);
+            return Ok(result);
+        }
+
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDTO model)
         {
