@@ -16,6 +16,27 @@ namespace NewsPlatform.WebAPI.Controllers
             _userAppService = userAppService;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<ReturnUserDTO>>> GetAllUsers()
+        {
+            var result = await _userAppService.GetAllUsers();
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ReturnUserDTO>> GetUserById(string id)
+        {
+            var result = await _userAppService.GetUserById(id);
+            return Ok(result);
+        }
+
+        [HttpGet("currentUser")]
+        public async Task<ActionResult<ReturnUserDTO>> GetCurrentUser()
+        {
+            var result = await _userAppService.GetCurrentUser();
+            return Ok(result);
+        }
+
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDTO model)
         {

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NewsPlatform.Application.DTOs.UserDTOs;
+using NewsPlatform.Data.Entities;
 using NewsPlatform.Domain.Models;
 
 namespace NewsPlatform.Application.MappingProfiles
@@ -10,6 +11,7 @@ namespace NewsPlatform.Application.MappingProfiles
         {
             CreateMap<LoginDTO, LoginModel>();
             CreateMap<RegisterDTO, RegisterModel>();
+            CreateMap<User, ReturnUserDTO>();
         }
     }
 }

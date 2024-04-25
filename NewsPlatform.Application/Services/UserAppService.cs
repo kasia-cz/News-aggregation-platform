@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using NewsPlatform.Application.DTOs.UserDTOs;
 using NewsPlatform.Application.Interfaces;
+using NewsPlatform.Data.Entities;
 using NewsPlatform.Domain.Interfaces;
 using NewsPlatform.Domain.Models;
 
@@ -15,6 +16,27 @@ namespace NewsPlatform.Application.Services
         {
             _userService = userService;
             _mapper = mapper;
+        }
+
+        public async Task<List<ReturnUserDTO>> GetAllUsers()
+        {
+            var users = await _userService.GetAllUsers();
+
+            return _mapper.Map<List<ReturnUserDTO>>(users);
+        }
+
+        public async Task<ReturnUserDTO> GetUserById(string id)
+        {
+            var user = await _userService.GetUserById(id);
+
+            return _mapper.Map<ReturnUserDTO>(user);
+        }
+
+        public async Task<ReturnUserDTO> GetCurrentUser()
+        {
+            var user = await _userService.GetCurrentUser();
+
+            return _mapper.Map<ReturnUserDTO>(user);
         }
 
         public async Task Register(RegisterDTO registerDTO)

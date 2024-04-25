@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using NewsPlatform.Data.Context;
 using NewsPlatform.Data.Entities;
 using NewsPlatform.Domain.Interfaces;
@@ -21,6 +22,21 @@ namespace NewsPlatform.Domain.Services
             _userManager = userManager;
             _signInManager = signInManager;
             _httpContextAccessor = httpContextAccessor;
+        }
+
+        public async Task<List<User>> GetAllUsers()
+        {
+            return await _context.Users.ToListAsync();
+        }
+
+        public async Task<User> GetUserById(string id)
+        {
+            return await _context.Users.FindAsync(id);
+        }
+
+        public async Task<User> GetCurrentUser()
+        {
+            return await _context.Users.FindAsync(GetCurrentUserId());
         }
 
         public async Task Register(RegisterModel model)
