@@ -34,9 +34,10 @@ namespace NewsPlatform.Domain.Services
             return await _context.News.ToListAsync();
         }
 
-        public async Task<List<News>> GetAllNews()
+        public async Task<List<News>> GetAllNews(int? minPositivityRate)
         {
-            return await _context.News.ToListAsync();
+            return await _context.News
+                .Where(n => minPositivityRate == null || n.PositivityRate >= minPositivityRate).ToListAsync();
         }
 
         public async Task<News> GetNewsById(Guid id)

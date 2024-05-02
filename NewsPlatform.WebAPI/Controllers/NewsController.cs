@@ -16,9 +16,9 @@ namespace NewsPlatform.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ReturnNewsDTO>>> GetAllNews()
+        public async Task<ActionResult<List<ReturnNewsDTO>>> GetAllNews(int? minPositivityRate)
         {
-            var result = await _newsAppService.GetAllNews();
+            var result = await _newsAppService.GetAllNews(minPositivityRate);
             return Ok(result);
         }
 

@@ -9,6 +9,6 @@
             public const string User = "User";
         }
 
-        public const int DefaultMinPositivityRate = 6;
+        public const int DefaultMinPositivityRate = 5;
     }
 }

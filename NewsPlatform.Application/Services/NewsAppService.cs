@@ -32,9 +32,9 @@ namespace NewsPlatform.Application.Services
             return _mapper.Map<List<ReturnNewsDTO>>(newsList);
         }
 
-        public async Task<List<ReturnNewsDTO>> GetAllNews()
+        public async Task<List<ReturnNewsDTO>> GetAllNews(int? minPositivityRate)
         {
-            var newsList = await _newsService.GetAllNews();
+            var newsList = await _newsService.GetAllNews(minPositivityRate);
 
             return _mapper.Map<List<ReturnNewsDTO>>(newsList);
         }

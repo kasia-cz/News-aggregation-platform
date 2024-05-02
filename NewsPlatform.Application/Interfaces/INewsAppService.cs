@@ -4,7 +4,7 @@ namespace NewsPlatform.Application.Interfaces
 {
     public interface INewsAppService
     {
-        Task<List<ReturnNewsDTO>> GetAllNews();
+        Task<List<ReturnNewsDTO>> GetAllNews(int? minPositivityRate);
         Task<ReturnNewsDTO> GetNewsById(Guid id);
         Task<ReturnNewsDTO> AddNews(AddNewsDTO requestNewsDTO);
         Task<List<ReturnNewsDTO>> DeleteNews(Guid id);
