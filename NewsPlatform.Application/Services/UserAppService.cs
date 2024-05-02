@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using NewsPlatform.Application.DTOs.UserDTOs;
 using NewsPlatform.Application.Interfaces;
 using NewsPlatform.Data.Constants;
@@ -50,6 +51,13 @@ namespace NewsPlatform.Application.Services
                 throw new BadRequestException("Invalid user role");
             }
             var user = await _userService.SetUserRole(id, requestUserRole);
+
+            return await MapUserWithRole(user);
+        }
+
+        public async Task<ReturnUserDTO> SetUserMinPositivityRate(int requestPositivityRate)
+        {
+            var user = await _userService.SetUserMinPositivityRate(requestPositivityRate);
 
             return await MapUserWithRole(user);
         }

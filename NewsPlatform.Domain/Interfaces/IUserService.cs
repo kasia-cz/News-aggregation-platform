@@ -10,6 +10,7 @@ namespace NewsPlatform.Domain.Interfaces
         Task<User> GetCurrentUser();
         Task<string> GetUserRole(User user);
         Task<User> SetUserRole(string id, string requestUserRole);
+        Task<User> SetUserMinPositivityRate(int requestPositivityRate);
         Task Register(RegisterModel model);
         Task Login(LoginModel model);
         Task Logout();

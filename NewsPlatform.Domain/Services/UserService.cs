@@ -68,6 +68,15 @@ namespace NewsPlatform.Domain.Services
             return user;
         }
 
+        public async Task<User> SetUserMinPositivityRate(int requestPositivityRate)
+        {
+            var user = await GetCurrentUser();
+            user.MinimumPositivityRate = requestPositivityRate;
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
         public async Task Register(RegisterModel model)
         {
             var user = new User
@@ -80,6 +89,7 @@ namespace NewsPlatform.Domain.Services
             {
                 throw new BadRequestException("Registration failed");
             }
+            user.MinimumPositivityRate = UserConstants.DefaultMinPositivityRate;
             await _userManager.AddToRoleAsync(user, UserConstants.UserRoles.User);
         }
 

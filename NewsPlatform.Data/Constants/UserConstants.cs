@@ -8,5 +8,7 @@
             public const string AuthorizedUser = "AuthorizedUser";
             public const string User = "User";
         }
+
+        public const int DefaultMinPositivityRate = 6;
     }
 }

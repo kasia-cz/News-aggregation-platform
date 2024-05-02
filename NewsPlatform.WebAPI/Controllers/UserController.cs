@@ -44,6 +44,13 @@ namespace NewsPlatform.WebAPI.Controllers
             return Ok(result);
         }
 
+        [HttpPut("minPositivityRate")]
+        public async Task<ActionResult<ReturnUserDTO>> Set(int requestPositivityRate)
+        {
+            var result = await _userAppService.SetUserMinPositivityRate(requestPositivityRate);
+            return Ok(result);
+        }
+
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDTO model)
         {
