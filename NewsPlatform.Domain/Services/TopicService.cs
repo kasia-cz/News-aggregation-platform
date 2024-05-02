@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NewsPlatform.Data.Context;
 using NewsPlatform.Data.Entities;
+using NewsPlatform.Domain.Exceptions;
 using NewsPlatform.Domain.Interfaces;
 
 namespace NewsPlatform.Domain.Services
@@ -25,6 +26,10 @@ namespace NewsPlatform.Domain.Services
         public async Task<List<Topic>> DeleteTopic(Guid id)
         {
             var topic = await _context.Topics.FindAsync(id);
+            if (topic == null)
+            {
+                throw new BadRequestException("Invalid topic ID");
+            }
             _context.Topics.Remove(topic);
             await _context.SaveChangesAsync();
 

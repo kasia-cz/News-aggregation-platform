@@ -3,6 +3,7 @@ using NewsPlatform.Application.DTOs.UserDTOs;
 using NewsPlatform.Application.Interfaces;
 using NewsPlatform.Data.Constants;
 using NewsPlatform.Data.Entities;
+using NewsPlatform.Domain.Exceptions;
 using NewsPlatform.Domain.Interfaces;
 using NewsPlatform.Domain.Models;
 
@@ -46,7 +47,7 @@ namespace NewsPlatform.Application.Services
 
             if (!allowedRoles.Contains(requestUserRole))
             {
-                throw new Exception("Invalid user role");
+                throw new BadRequestException("Invalid user role");
             }
             var user = await _userService.SetUserRole(id, requestUserRole);
 

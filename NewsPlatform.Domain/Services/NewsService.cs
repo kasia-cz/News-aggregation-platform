@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NewsPlatform.Data.Context;
 using NewsPlatform.Data.Entities;
+using NewsPlatform.Domain.Exceptions;
 using NewsPlatform.Domain.Interfaces;
 
 namespace NewsPlatform.Domain.Services
@@ -26,7 +27,7 @@ namespace NewsPlatform.Domain.Services
 
         public async Task<List<News>> DeleteNews(Guid id)
         {
-            var news = await _context.News.FindAsync(id);
+            var news = await GetNewsById(id);
             _context.News.Remove(news);
             await _context.SaveChangesAsync();
 
@@ -40,12 +41,17 @@ namespace NewsPlatform.Domain.Services
 
         public async Task<News> GetNewsById(Guid id)
         {
-            return await _context.News.FindAsync(id);
+            var news = await _context.News.FindAsync(id);
+            if (news == null)
+            {
+                throw new BadRequestException("Invalid news ID");
+            }
+            return news;
         }
 
         public async Task<News> UpdateNews(Guid id, News requestNews)
         {
-            var news = await _context.News.FindAsync(id);
+            var news = await GetNewsById(id);
             news.Title = requestNews.Title;
             news.Author = requestNews.Author;
             news.Content = requestNews.Content;

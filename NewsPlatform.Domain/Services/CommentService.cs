@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NewsPlatform.Data.Context;
 using NewsPlatform.Data.Entities;
+using NewsPlatform.Domain.Exceptions;
 using NewsPlatform.Domain.Interfaces;
 
 namespace NewsPlatform.Domain.Services
@@ -29,6 +30,10 @@ namespace NewsPlatform.Domain.Services
         public async Task<List<Comment>> DeleteComment(Guid id)
         {
             var comment = await _context.Comments.FindAsync(id);
+            if (comment == null)
+            {
+                throw new BadRequestException("Invalid comment ID");
+            }
             _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
 
