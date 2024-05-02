@@ -4,6 +4,7 @@ using NewsPlatform.Domain;
 using NewsPlatform.Data.Context;
 using Microsoft.AspNetCore.Identity;
 using NewsPlatform.Data.Entities;
+using NewsPlatform.WebAPI.Middlewares;
 
 namespace NewsPlatform.WebAPI
 {
@@ -47,6 +48,8 @@ namespace NewsPlatform.WebAPI
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.Run();
         }
