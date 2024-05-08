@@ -9,5 +9,7 @@ namespace NewsPlatform.Application.Interfaces
         Task<ReturnNewsDTO> AddNews(AddNewsDTO requestNewsDTO);
         Task<List<ReturnNewsDTO>> DeleteNews(Guid id);
         Task<ReturnNewsDTO> UpdateNews(Guid id, AddNewsDTO requestNewsDTO);
+
+        Task<List<ReturnNewsDTO>> AggregateNews();
     }
 }

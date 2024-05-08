@@ -49,5 +49,12 @@ namespace NewsPlatform.WebAPI.Controllers
             var result = await _newsAppService.DeleteNews(id);
             return Ok(result);
         }
+
+        [HttpGet("aggregate")]
+        public async Task<ActionResult<List<ReturnNewsDTO>>> AggregateNews()
+        {
+            var result = await _newsAppService.AggregateNews();
+            return Ok(result);
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace NewsPlatform.Domain.Interfaces
         Task<News> AddNews(News news);
         Task<List<News>> DeleteNews(Guid id);
         Task<News> UpdateNews(Guid id, News requestNews);
+
+        Task<List<News>> AggregateNews();
     }
 }

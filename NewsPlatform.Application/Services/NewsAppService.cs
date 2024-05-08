@@ -25,6 +25,13 @@ namespace NewsPlatform.Application.Services
             return _mapper.Map<ReturnNewsDTO>(news);
         }
 
+        public async Task<List<ReturnNewsDTO>> AggregateNews()
+        {
+            var newsList = await _newsService.AggregateNews();
+
+            return _mapper.Map<List<ReturnNewsDTO>>(newsList);
+        }
+
         public async Task<List<ReturnNewsDTO>> DeleteNews(Guid id)
         {
             var newsList = await _newsService.DeleteNews(id);

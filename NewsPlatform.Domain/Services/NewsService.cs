@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HtmlAgilityPack;
+using Microsoft.EntityFrameworkCore;
 using NewsPlatform.Data.Context;
 using NewsPlatform.Data.Entities;
 using NewsPlatform.Domain.Exceptions;
 using NewsPlatform.Domain.Interfaces;
+using System.ServiceModel.Syndication;
+using System.Xml;
 
 namespace NewsPlatform.Domain.Services
 {
@@ -23,6 +26,47 @@ namespace NewsPlatform.Domain.Services
             await _context.SaveChangesAsync();
 
             return news;
+        }
+
+        public async Task<List<News>> AggregateNews()
+        {
+            var rssLink = @"https://www.pcgamesn.com/mainrss.xml"; // temporary
+
+            try
+            {
+                var reader = XmlReader.Create(rssLink);
+                var feed = SyndicationFeed.Load(reader);
+
+                var existedNews = await _context.News.Select(news => news.SourceLink).ToListAsync();
+
+                var newsDictionary = feed.Items.Select(item => new News()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = item.Title.Text,
+                    Author = string.Join(", ", item.Authors.Select(author => author.Name)),
+                    Description = item.Summary.Text,
+                    PublishTime = item.PublishDate.UtcDateTime,
+                    SourceLink = item.Links[0].Uri.ToString(),
+                    PositivityRate = 5 // change later
+                }).Where(news => !existedNews.Contains(news.SourceLink)).ToDictionary(a => a.SourceLink, a => a);
+
+
+                foreach (var news in newsDictionary)
+                {
+                    var newsContent = await GetNewsContentByUrl(news.Key);
+                    news.Value.Content = newsContent;
+                }
+
+                var newsList = newsDictionary.Values.ToList();
+                await _context.News.AddRangeAsync(newsList);
+                await _context.SaveChangesAsync();
+
+                return newsList;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<List<News>> DeleteNews(Guid id)
@@ -59,6 +103,16 @@ namespace NewsPlatform.Domain.Services
             await _context.SaveChangesAsync();
 
             return news;
+        }
+
+        private static async Task<string> GetNewsContentByUrl(string url)
+        {
+            var web = new HtmlWeb();
+            var doc = await web.LoadFromWebAsync(url);
+
+            var newsContent = doc.DocumentNode.SelectSingleNode("//div[contains(@class, 'entry-content')]").InnerHtml;
+
+            return newsContent;
         }
     }
 }
