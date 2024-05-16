@@ -6,7 +6,7 @@ using NewsPlatform.Data.Context;
 using NewsPlatform.Data.Entities;
 using NewsPlatform.Shared.Middlewares;
 
-namespace NewsPlatform.WebAPI
+namespace NewsPlatform.MVC
 {
     public class Program
     {
@@ -14,9 +14,7 @@ namespace NewsPlatform.WebAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddControllersWithViews();
 
             builder.Services.RegisterApplicationServices();
             builder.Services.RegisterDomainServices();
@@ -33,23 +31,26 @@ namespace NewsPlatform.WebAPI
 
             }).AddRoles<IdentityRole>().AddEntityFrameworkStores<NewsPlatformDbContext>().AddDefaultTokenProviders();
 
-            builder.Services.AddHttpContextAccessor();
-
             var app = builder.Build();
 
-            if (app.Environment.IsDevelopment())
+            if (!app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
 
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
 
             app.UseAuthorization();
 
-            app.MapControllers();
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }

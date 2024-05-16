@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NewsPlatform.Application\NewsPlatform.Application.csproj" />
+    <ProjectReference Include="..\NewsPlatform.Shared\NewsPlatform.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

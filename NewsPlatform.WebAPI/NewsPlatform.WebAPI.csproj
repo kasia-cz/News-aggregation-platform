@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NewsPlatform.Application\NewsPlatform.Application.csproj" />
+    <ProjectReference Include="..\NewsPlatform.Shared\NewsPlatform.Shared.csproj" />
   </ItemGroup>
 
 </Project>

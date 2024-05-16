@@ -1,8 +1,9 @@
-﻿using NewsPlatform.Domain.Exceptions;
+﻿using Microsoft.AspNetCore.Http;
+using NewsPlatform.Domain.Exceptions;
 using System.Net;
 using System.Text.Json;
 
-namespace NewsPlatform.WebAPI.Middlewares
+namespace NewsPlatform.Shared.Middlewares
 {
     public class ExceptionMiddleware
     {
