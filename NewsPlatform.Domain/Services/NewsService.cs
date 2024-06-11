@@ -22,6 +22,7 @@ namespace NewsPlatform.Domain.Services
         {
             news.PublishTime = DateTime.Now;
             news.PositivityRate = 5; // change later when positivity rate algorithm is ready
+            news.SourceLink = "null"; // change to nullable
             _context.News.Add(news);
             await _context.SaveChangesAsync();
 

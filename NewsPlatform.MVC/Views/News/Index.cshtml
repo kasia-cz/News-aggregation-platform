@@ -1,0 +1,31 @@
+﻿@model IEnumerable<NewsPlatform.Application.DTOs.NewsDTOs.ReturnNewsDTO>
+
+<h2>News List</h2>
+
+@foreach (var news in Model)
+{
+    <div class="news-item">
+        <h3>@news.Title</h3>
+        <p><strong>Author:</strong> @news.Author</p>
+        <p><strong>Publish Date:</strong> @news.PublishTime.ToString("d")</p>
+        <p><strong>Description:</strong></p>
+        <div>@Html.Raw(news.Description)</div>
+        <a href="@Url.Action("Details", new { id = news.Id })" class="btn btn-primary">Details</a>
+        <hr />
+    </div>
+}
+
+<style>
+    .news-item {
+        margin-bottom: 20px;
+    }
+
+        .news-item h3 {
+            font-size: 1.5em;
+        }
+
+        .news-item img {
+            max-width: 100%;
+            height: auto;
+        }
+</style>
