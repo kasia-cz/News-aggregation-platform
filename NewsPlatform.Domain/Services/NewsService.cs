@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using Microsoft.EntityFrameworkCore;
+using NewsPlatform.Data.Constants;
 using NewsPlatform.Data.Context;
 using NewsPlatform.Data.Entities;
 using NewsPlatform.Domain.Exceptions;
@@ -12,10 +13,12 @@ namespace NewsPlatform.Domain.Services
     public class NewsService : INewsService
     {
         private readonly NewsPlatformDbContext _context;
+        private readonly IUserService _userService;
 
-        public NewsService(NewsPlatformDbContext context)
+        public NewsService(NewsPlatformDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         public async Task<News> AddNews(News news)
@@ -79,10 +82,20 @@ namespace NewsPlatform.Domain.Services
             return await _context.News.ToListAsync();
         }
 
-        public async Task<List<News>> GetAllNews(int? minPositivityRate)
+        public async Task<List<News>> GetAllNews()
         {
-            return await _context.News
-                .Where(n => minPositivityRate == null || n.PositivityRate >= minPositivityRate).ToListAsync();
+            int minimumPositivityRate;
+            try
+            {
+                var currentUser = await _userService.GetCurrentUser();
+                minimumPositivityRate = currentUser.MinimumPositivityRate;
+            }
+            catch (BadRequestException) 
+            {
+                minimumPositivityRate = UserConstants.DefaultMinPositivityRate;
+            }
+
+            return await _context.News.Where(n => n.PositivityRate >= minimumPositivityRate).ToListAsync();
         }
 
         public async Task<News> GetNewsById(Guid id)

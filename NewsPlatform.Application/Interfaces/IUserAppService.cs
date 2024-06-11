@@ -1,5 +1,4 @@
 ﻿using NewsPlatform.Application.DTOs.UserDTOs;
-using NewsPlatform.Data.Entities;
 
 namespace NewsPlatform.Application.Interfaces
 {
