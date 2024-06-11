@@ -39,5 +39,22 @@ namespace NewsPlatform.Application.Services
 
             return _mapper.Map<List<ReturnTopicDTO>>(topicList);
         }
+
+        public async Task<List<ReturnTopicDTO>> GetSubscribedTopics()
+        {
+            var topicList = await _topicService.GetSubscribedTopics();
+
+            return _mapper.Map<List<ReturnTopicDTO>>(topicList);
+        }
+
+        public async Task SubscribeTopic(Guid id)
+        {
+            await _topicService.SubscribeTopic(id);
+        }
+
+        public async Task UnsubscribeTopic(Guid id)
+        {
+            await _topicService.UnsubscribeTopic(id);
+        }
     }
 }

@@ -9,10 +9,12 @@ namespace NewsPlatform.Domain.Services
     public class TopicService : ITopicService
     {
         private readonly NewsPlatformDbContext _context;
+        private readonly IUserService _userService;
 
-        public TopicService(NewsPlatformDbContext context)
+        public TopicService(NewsPlatformDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         public async Task<List<Topic>> AddTopic(Topic topic)
@@ -39,6 +41,41 @@ namespace NewsPlatform.Domain.Services
         public async Task<List<Topic>> GetAllTopics()
         {
             return await _context.Topics.ToListAsync();
+        }
+
+        public async Task<Topic> GetTopicById(Guid id)
+        {
+            var topic = await _context.Topics.FindAsync(id);
+            if (topic == null)
+            {
+                throw new BadRequestException("Invalid topic ID");
+            }
+            return topic;
+        }
+
+        public async Task<List<Topic>> GetSubscribedTopics()
+        {
+            var currentUser = await _userService.GetCurrentUserWithTopics();
+
+            return currentUser.SubscribedTopics;
+        }
+
+        public async Task SubscribeTopic(Guid id)
+        {
+            var topic = await GetTopicById(id);
+            var currentUser = await _userService.GetCurrentUserWithTopics();
+            currentUser.SubscribedTopics.Add(topic);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UnsubscribeTopic(Guid id)
+        {
+            var topic = await GetTopicById(id);
+            var currentUser = await _userService.GetCurrentUserWithTopics();
+            currentUser.SubscribedTopics.Remove(topic);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

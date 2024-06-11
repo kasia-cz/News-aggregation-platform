@@ -15,7 +15,7 @@ namespace NewsPlatform.WebAPI.Controllers
             _topicAppService = topicAppService;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<List<ReturnTopicDTO>>> GetAllTopics()
         {
             var result = await _topicAppService.GetAllTopics();
@@ -34,6 +34,27 @@ namespace NewsPlatform.WebAPI.Controllers
         {
             var result = await _topicAppService.DeleteTopic(id);
             return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<ReturnTopicDTO>>> GetSubscribedTopics()
+        {
+            var result = await _topicAppService.GetSubscribedTopics();
+            return Ok(result);
+        }
+
+        [HttpPost("subscribe/{id}")]
+        public async Task<ActionResult> SubscribeTopic(Guid id)
+        {
+            await _topicAppService.SubscribeTopic(id);
+            return NoContent();
+        }
+
+        [HttpDelete("unsubscribe/{id}")]
+        public async Task<ActionResult> UnsubscribeTopic(Guid id)
+        {
+            await _topicAppService.UnsubscribeTopic(id);
+            return NoContent();
         }
     }
 }

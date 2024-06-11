@@ -8,6 +8,7 @@ namespace NewsPlatform.Domain.Interfaces
         Task<List<User>> GetAllUsers();
         Task<User> GetUserById(string id);
         Task<User> GetCurrentUser();
+        Task<User> GetCurrentUserWithTopics();
         Task<string> GetUserRole(User user);
         Task<User> SetUserRole(string id, string requestUserRole);
         Task<User> SetUserMinPositivityRate(int requestPositivityRate);

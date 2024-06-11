@@ -46,6 +46,16 @@ namespace NewsPlatform.Domain.Services
             return await GetUserById(GetCurrentUserId());
         }
 
+        public async Task<User> GetCurrentUserWithTopics()
+        {
+            var currentUserWithTopics = await _context.Users.Include(u => u.SubscribedTopics).FirstOrDefaultAsync(u => u.Id == GetCurrentUserId());
+            if (currentUserWithTopics == null)
+            {
+                throw new BadRequestException("No user logged in");
+            }
+            return currentUserWithTopics;
+        }
+
         public async Task<string> GetUserRole(User user)
         {
             var userRoles = await _userManager.GetRolesAsync(user);
