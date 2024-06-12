@@ -8,5 +8,7 @@
         public string Description { get; set; }
         public int PositivityRate { get; set; }
         public DateTime PublishTime { get; set; }
+        public string SourceLink { get; set; }
+        public int CommentCount { get; set; }
     }
 }

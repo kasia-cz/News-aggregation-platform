@@ -52,8 +52,7 @@ namespace NewsPlatform.Domain.Services
                     PublishTime = item.PublishDate.UtcDateTime,
                     SourceLink = item.Links[0].Uri.ToString(),
                     PositivityRate = 5 // change later
-                }).Where(news => !existedNews.Contains(news.SourceLink)).ToDictionary(a => a.SourceLink, a => a);
-
+                }).Where(news => !existedNews.Contains(news.SourceLink)).ToDictionary(n => n.SourceLink, n => n);
 
                 foreach (var news in newsDictionary)
                 {
@@ -79,7 +78,7 @@ namespace NewsPlatform.Domain.Services
             _context.News.Remove(news);
             await _context.SaveChangesAsync();
 
-            return await _context.News.ToListAsync();
+            return await GetAllNews();
         }
 
         public async Task<List<News>> GetAllNews()
@@ -95,12 +94,12 @@ namespace NewsPlatform.Domain.Services
                 minimumPositivityRate = UserConstants.DefaultMinPositivityRate;
             }
 
-            return await _context.News.Where(n => n.PositivityRate >= minimumPositivityRate).ToListAsync();
+            return await _context.News.Where(n => n.PositivityRate >= minimumPositivityRate).Include(n => n.Comments).ToListAsync();
         }
 
         public async Task<News> GetNewsById(Guid id)
         {
-            var news = await _context.News.FindAsync(id);
+            var news = await _context.News.Include(n => n.Comments).ThenInclude(n => n.User).FirstOrDefaultAsync(n => n.Id == id);
             if (news == null)
             {
                 throw new BadRequestException("Invalid news ID");
@@ -113,6 +112,7 @@ namespace NewsPlatform.Domain.Services
             var news = await GetNewsById(id);
             news.Title = requestNews.Title;
             news.Author = requestNews.Author;
+            news.Description = requestNews.Description;
             news.Content = requestNews.Content;
             await _context.SaveChangesAsync();
 

@@ -10,7 +10,8 @@ namespace NewsPlatform.Application.MappingProfiles
         {
             CreateMap<AddNewsDTO, News>();
             CreateMap<News, ReturnNewsDTO>();
-            CreateMap<News, ReturnNewsShortDTO>();
+            CreateMap<News, ReturnNewsShortDTO>()
+                .ForMember(dest => dest.CommentCount, opt => opt.MapFrom(src => src.Comments.Count));
         }
     }
 }

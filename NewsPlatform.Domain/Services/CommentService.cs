@@ -24,7 +24,7 @@ namespace NewsPlatform.Domain.Services
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 
-            return await _context.Comments.Where(c => c.NewsId == comment.NewsId).ToListAsync();
+            return await GetNewsComments(comment.NewsId);
         }
 
         public async Task<List<Comment>> DeleteComment(Guid id)
@@ -37,12 +37,12 @@ namespace NewsPlatform.Domain.Services
             _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
 
-            return await _context.Comments.Where(c => c.NewsId == comment.NewsId).ToListAsync();
+            return await GetNewsComments(comment.NewsId);
         }
 
         public async Task<List<Comment>> GetNewsComments(Guid newsId)
         {
-            return await _context.Comments.Where(c => c.NewsId == newsId).ToListAsync();
+            return await _context.Comments.Where(c => c.NewsId == newsId).Include(c => c.User).ToListAsync();
         }
     }
 }

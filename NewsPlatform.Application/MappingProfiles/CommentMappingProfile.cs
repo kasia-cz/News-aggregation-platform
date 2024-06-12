@@ -9,7 +9,8 @@ namespace NewsPlatform.Application.MappingProfiles
         public CommentMappingProfile() 
         {
             CreateMap<AddCommentDTO, Comment>();
-            CreateMap<Comment, ReturnCommentDTO>();
+            CreateMap<Comment, ReturnCommentDTO>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName));
         }
     }
 }

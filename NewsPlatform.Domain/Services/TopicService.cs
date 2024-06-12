@@ -22,7 +22,7 @@ namespace NewsPlatform.Domain.Services
             _context.Topics.Add(topic);
             await _context.SaveChangesAsync();
 
-            return await _context.Topics.ToListAsync();
+            return await GetAllTopics();
         }
 
         public async Task<List<Topic>> DeleteTopic(Guid id)
@@ -35,7 +35,7 @@ namespace NewsPlatform.Domain.Services
             _context.Topics.Remove(topic);
             await _context.SaveChangesAsync();
 
-            return await _context.Topics.ToListAsync();
+            return await GetAllTopics();
         }
 
         public async Task<List<Topic>> GetAllTopics()
