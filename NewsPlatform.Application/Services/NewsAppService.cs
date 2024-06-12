@@ -25,25 +25,25 @@ namespace NewsPlatform.Application.Services
             return _mapper.Map<ReturnNewsDTO>(news);
         }
 
-        public async Task<List<ReturnNewsDTO>> AggregateNews()
+        public async Task<List<ReturnNewsShortDTO>> AggregateNews()
         {
             var newsList = await _newsService.AggregateNews();
 
-            return _mapper.Map<List<ReturnNewsDTO>>(newsList);
+            return _mapper.Map<List<ReturnNewsShortDTO>>(newsList);
         }
 
-        public async Task<List<ReturnNewsDTO>> DeleteNews(Guid id)
+        public async Task<List<ReturnNewsShortDTO>> DeleteNews(Guid id)
         {
             var newsList = await _newsService.DeleteNews(id);
 
-            return _mapper.Map<List<ReturnNewsDTO>>(newsList);
+            return _mapper.Map<List<ReturnNewsShortDTO>>(newsList);
         }
 
-        public async Task<List<ReturnNewsDTO>> GetAllNews()
+        public async Task<List<ReturnNewsShortDTO>> GetAllNews()
         {
             var newsList = await _newsService.GetAllNews();
 
-            return _mapper.Map<List<ReturnNewsDTO>>(newsList);
+            return _mapper.Map<List<ReturnNewsShortDTO>>(newsList);
         }
 
         public async Task<ReturnNewsDTO> GetNewsById(Guid id)

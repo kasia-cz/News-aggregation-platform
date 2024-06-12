@@ -10,6 +10,7 @@ namespace NewsPlatform.Application.MappingProfiles
         {
             CreateMap<AddNewsDTO, News>();
             CreateMap<News, ReturnNewsDTO>();
+            CreateMap<News, ReturnNewsShortDTO>();
         }
     }
 }

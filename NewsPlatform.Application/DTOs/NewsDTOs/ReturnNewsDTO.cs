@@ -1,4 +1,7 @@
-﻿namespace NewsPlatform.Application.DTOs.NewsDTOs
+﻿using NewsPlatform.Application.DTOs.CommentDTOs;
+using NewsPlatform.Application.DTOs.TopicDTOs;
+
+namespace NewsPlatform.Application.DTOs.NewsDTOs
 {
     public class ReturnNewsDTO
     {
@@ -11,7 +14,7 @@
         public DateTime PublishTime { get; set; }
         public string SourceLink { get; set; }
 
-        //public List<Comment> Comments { get; set; } // add later with some DTOs
-        //public List<Topic> Topics { get; set; }
+        public List<ReturnCommentDTO> Comments { get; set; }
+        public List<ReturnTopicDTO> Topics { get; set; }
     }
 }
